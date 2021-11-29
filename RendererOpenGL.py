@@ -14,17 +14,17 @@ from pygame.locals import *
 import numpy as np
 from gl import Renderer, Model
 import shaders
- 
-mainClock = pygame.time.Clock()
 
 width = 960
 height = 540
 
 pygame.init()
 pygame.display.set_caption('Proyecto 4: OpenGL')
-screen = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL | pygame.HWSURFACE | pygame.OPENGL )
+screen = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL | pygame.HWSURFACE )
 screen.set_alpha(None)
- 
+
+clock = pygame.time.Clock()
+
 font = pygame.font.Font('freesansbold.ttf', 30)
 
 #musica
@@ -95,19 +95,60 @@ def main_menu():
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
- 
+
         pygame.display.update()
-        mainClock.tick(60)
- 
+        clock.tick(60)
+
+
+
+
+
+#OBJ TIERRA
 def tierra():
     running = True
     while running:
-         
-        #fondo
-        fondo = pygame.image.load('fondo.jpg')
-        screen.blit(fondo, (0,0))
         
-        draw_text('tierra', font, (255, 255, 255), screen, 20, 20)
+        screen = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL | pygame.HWSURFACE | pygame.OPENGL)
+        deltaTime = 0.0
+
+        rend = Renderer(screen)
+        rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+
+        model = Model('cube.obj', 'earth.jpg')
+        model.position.z = -5
+
+        rend.scene.append( model )
+
+        keys = pygame.key.get_pressed()
+
+        # Traslacion de camara
+        if keys[K_d]:
+            rend.camPosition.x += 1 * deltaTime
+        if keys[K_a]:
+            rend.camPosition.x -= 1 * deltaTime
+        if keys[K_w]:
+            rend.camPosition.z += 1 * deltaTime
+        if keys[K_s]:
+            rend.camPosition.z -= 1 * deltaTime
+        if keys[K_q]:
+            rend.camPosition.y -= 1 * deltaTime
+        if keys[K_e]:
+            rend.camPosition.y += 1 * deltaTime
+
+        if keys[K_LEFT]:
+            if rend.valor > 0:
+                rend.valor -= 0.1 * deltaTime
+
+        if keys[K_RIGHT]:
+            if rend.valor < 0.2:
+                rend.valor += 0.1 * deltaTime
+
+        # Rotacion de camara
+        if keys[K_z]:
+            rend.camRotation.y += 15 * deltaTime
+        if keys[K_x]:
+            rend.camRotation.y -= 15 * deltaTime
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -116,18 +157,63 @@ def tierra():
                 if event.key == K_ESCAPE:
                     running = False
         
-        pygame.display.update()
-        mainClock.tick(60)
- 
+        rend.tiempo += deltaTime
+        deltaTime = clock.tick(60) / 1000
+
+        rend.render()
+
+        pygame.display.flip()
+
+
+
+
+
+#OBJ MARTE
 def marte():
     running = True
     while running:
         
-        #fondo
-        fondo = pygame.image.load('fondo.jpg')
-        screen.blit(fondo, (0,0))
- 
-        draw_text('marte', font, (255, 255, 255), screen, 20, 20)
+        screen = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL | pygame.HWSURFACE | pygame.OPENGL)
+        deltaTime = 0.0
+
+        rend = Renderer(screen)
+        rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+
+        model = Model('circle.obj', 'mars.jpg')
+        model.position.z = -5
+
+        rend.scene.append( model )
+
+        keys = pygame.key.get_pressed()
+
+        # Traslacion de camara
+        if keys[K_d]:
+            rend.camPosition.x += 1 * deltaTime
+        if keys[K_a]:
+            rend.camPosition.x -= 1 * deltaTime
+        if keys[K_w]:
+            rend.camPosition.z += 1 * deltaTime
+        if keys[K_s]:
+            rend.camPosition.z -= 1 * deltaTime
+        if keys[K_q]:
+            rend.camPosition.y -= 1 * deltaTime
+        if keys[K_e]:
+            rend.camPosition.y += 1 * deltaTime
+
+        if keys[K_LEFT]:
+            if rend.valor > 0:
+                rend.valor -= 0.1 * deltaTime
+
+        if keys[K_RIGHT]:
+            if rend.valor < 0.2:
+                rend.valor += 0.1 * deltaTime
+
+        # Rotacion de camara
+        if keys[K_z]:
+            rend.camRotation.y += 15 * deltaTime
+        if keys[K_x]:
+            rend.camRotation.y -= 15 * deltaTime
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -136,18 +222,63 @@ def marte():
                 if event.key == K_ESCAPE:
                     running = False
         
-        pygame.display.update()
-        mainClock.tick(60)
+        rend.tiempo += deltaTime
+        deltaTime = clock.tick(60) / 1000
 
+        rend.render()
+
+        pygame.display.flip()
+
+
+
+
+
+#OBJ JUPITER
 def jupiter():
     running = True
     while running:
         
-        #fondo
-        fondo = pygame.image.load('fondo.jpg')
-        screen.blit(fondo, (0,0))
- 
-        draw_text('jupiter', font, (255, 255, 255), screen, 20, 20)
+        screen = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL | pygame.HWSURFACE | pygame.OPENGL)
+        deltaTime = 0.0
+
+        rend = Renderer(screen)
+        rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+
+        model = Model('cone.obj', 'jupiter.jpg')
+        model.position.z = -5
+
+        rend.scene.append( model )
+
+        keys = pygame.key.get_pressed()
+
+        # Traslacion de camara
+        if keys[K_d]:
+            rend.camPosition.x += 1 * deltaTime
+        if keys[K_a]:
+            rend.camPosition.x -= 1 * deltaTime
+        if keys[K_w]:
+            rend.camPosition.z += 1 * deltaTime
+        if keys[K_s]:
+            rend.camPosition.z -= 1 * deltaTime
+        if keys[K_q]:
+            rend.camPosition.y -= 1 * deltaTime
+        if keys[K_e]:
+            rend.camPosition.y += 1 * deltaTime
+
+        if keys[K_LEFT]:
+            if rend.valor > 0:
+                rend.valor -= 0.1 * deltaTime
+
+        if keys[K_RIGHT]:
+            if rend.valor < 0.2:
+                rend.valor += 0.1 * deltaTime
+
+        # Rotacion de camara
+        if keys[K_z]:
+            rend.camRotation.y += 15 * deltaTime
+        if keys[K_x]:
+            rend.camRotation.y -= 15 * deltaTime
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -156,18 +287,63 @@ def jupiter():
                 if event.key == K_ESCAPE:
                     running = False
         
-        pygame.display.update()
-        mainClock.tick(60)
+        rend.tiempo += deltaTime
+        deltaTime = clock.tick(60) / 1000
 
+        rend.render()
+
+        pygame.display.flip()
+
+
+
+
+
+#OBJ MERCURIO
 def mercurio():
     running = True
     while running:
         
-        #fondo
-        fondo = pygame.image.load('fondo.jpg')
-        screen.blit(fondo, (0,0))
- 
-        draw_text('mercurio', font, (255, 255, 255), screen, 20, 20)
+        screen = pygame.display.set_mode((width,height), pygame.DOUBLEBUF | pygame.HWACCEL | pygame.HWSURFACE | pygame.OPENGL)
+        deltaTime = 0.0
+
+        rend = Renderer(screen)
+        rend.setShaders(shaders.vertex_shader, shaders.fragment_shader)
+
+        model = Model('cylinder.obj', 'mercury.jpg')
+        model.position.z = -5
+
+        rend.scene.append( model )
+
+        keys = pygame.key.get_pressed()
+
+        # Traslacion de camara
+        if keys[K_d]:
+            rend.camPosition.x += 1 * deltaTime
+        if keys[K_a]:
+            rend.camPosition.x -= 1 * deltaTime
+        if keys[K_w]:
+            rend.camPosition.z += 1 * deltaTime
+        if keys[K_s]:
+            rend.camPosition.z -= 1 * deltaTime
+        if keys[K_q]:
+            rend.camPosition.y -= 1 * deltaTime
+        if keys[K_e]:
+            rend.camPosition.y += 1 * deltaTime
+
+        if keys[K_LEFT]:
+            if rend.valor > 0:
+                rend.valor -= 0.1 * deltaTime
+
+        if keys[K_RIGHT]:
+            if rend.valor < 0.2:
+                rend.valor += 0.1 * deltaTime
+
+        # Rotacion de camara
+        if keys[K_z]:
+            rend.camRotation.y += 15 * deltaTime
+        if keys[K_x]:
+            rend.camRotation.y -= 15 * deltaTime
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -176,7 +352,11 @@ def mercurio():
                 if event.key == K_ESCAPE:
                     running = False
         
-        pygame.display.update()
-        mainClock.tick(60)
+        rend.tiempo += deltaTime
+        deltaTime = clock.tick(60) / 1000
+
+        rend.render()
+
+        pygame.display.flip()
 
 main_menu()
