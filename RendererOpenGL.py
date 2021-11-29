@@ -37,7 +37,7 @@ def draw_text(text, font, color, surface, x, y):
     textrect.topleft = (x, y)
     surface.blit(textobj, textrect)
  
-click = False
+#click = False
  
 def main_menu():
     while True:
@@ -293,7 +293,6 @@ def jupiter():
         rend.render()
 
         pygame.display.flip()
-
 
 
 
